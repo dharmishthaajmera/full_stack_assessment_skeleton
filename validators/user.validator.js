@@ -4,7 +4,7 @@ const { validator } = require("../helper/validator");
 const findByHomeValidation = async (req, res, next) => {
   const schema = yup.object({
     query: yup.object({
-      address: yup.string().required().label("address"),
+      home_id: yup.number().required().label("home id"),
     }),
   });
   validator(req, res, schema, next);

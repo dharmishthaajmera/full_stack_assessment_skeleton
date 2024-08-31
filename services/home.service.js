@@ -1,15 +1,15 @@
 const { customException } = require("../helper/error-handler");
 const model = require("../models");
 
-const getHomeByUser = async (username) => {
+const getHomeByUser = async (user_id, page, limit) => {
   try {
     const allHomes = await model.home.findAll({
       include: {
         model: model.user_home_relation,
-        as: "user_home_relations",
+        as: "home_user_relation",
         attributes: [],
         where: {
-          username,
+          user_id,
         },
       },
       attributes: [
@@ -21,7 +21,10 @@ const getHomeByUser = async (username) => {
         "baths",
         "list_price",
       ],
+      limit,
+      offset: page * limit,
     });
+
     return allHomes;
   } catch (error) {
     console.log(error);
@@ -29,12 +32,12 @@ const getHomeByUser = async (username) => {
   }
 };
 
-const updateUsersForHome = async (homeAddress, removedUsers) => {
+const updateUsersForHome = async (removedUsers, home_id) => {
   try {
     await model.user_home_relation.destroy({
       where: {
-        username: removedUsers,
-        street_address: homeAddress,
+        user_id: removedUsers,
+        home_id,
       },
     });
   } catch (error) {

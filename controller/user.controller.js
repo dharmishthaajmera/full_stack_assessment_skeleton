@@ -15,9 +15,9 @@ const getAllUsers = async (req, res, next) => {
 
 const findUsersByHome = async (req, res, next) => {
   try {
-    const { address } = req.query;
+    const { home_id } = req.query;
 
-    const usersByHome = await userService.getUsersByHome(address);
+    const usersByHome = await userService.getUsersByHome(home_id);
     req.data = usersByHome;
     next();
   } catch (error) {

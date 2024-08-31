@@ -9,17 +9,24 @@ module.exports = (sequelize) => {
      */
     static associate(models) {
       this.hasMany(models.user_home_relation, {
-        foreignKey: "street_address",
-        as: "user_home_relations",
+        foreignKey: "home_id",
+        as: "home_user_relation",
       });
       // define association here
     }
   }
   home.init(
     {
+      home_id: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+      },
       street_address: {
         type: Sequelize.STRING,
-        primaryKey: true,
+        unique: true,
+        allowNull: false,
       },
       state: {
         type: Sequelize.STRING,

@@ -9,14 +9,14 @@ module.exports = (sequelize) => {
      */
     static associate(models) {
       this.belongsTo(models.user, {
-        foreignKey: "username",
-        targetKey: "username",
+        foreignKey: "user_id",
+        targetKey: "user_id",
         as: "user_fk",
         onDelete: "cascade",
       }),
         this.belongsTo(models.home, {
-          foreignKey: "street_address",
-          targetKey: "street_address",
+          foreignKey: "home_id",
+          targetKey: "home_id",
           as: "home_fk",
           onDelete: "cascade",
         });
@@ -25,18 +25,18 @@ module.exports = (sequelize) => {
   }
   user_home_relation.init(
     {
-      username: {
-        type: Sequelize.STRING,
+      user_id: {
+        type: Sequelize.INTEGER,
         references: {
           model: "user",
-          key: "username",
+          key: "user_id",
         },
       },
-      street_address: {
-        type: Sequelize.STRING,
+      home_id: {
+        type: Sequelize.INTEGER,
         references: {
           model: "home",
-          key: "street_address",
+          key: "home_id",
         },
       },
     },

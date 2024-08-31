@@ -4,9 +4,12 @@ const { commonErrorHandler } = require("../helper/error-handler");
 
 const findHomeByUser = async (req, res, next) => {
   try {
-    const { username } = req.query;
+    const { user_id } = req.query;
+    const page = req.query.page ? req.query.page - 1 : 0;
+    const limit = 50;
 
-    const usersByHome = await homeService.getHomeByUser(username);
+    const usersByHome = await homeService.getHomeByUser(user_id, page, limit);
+
     req.data = usersByHome;
     next();
   } catch (error) {
@@ -19,13 +22,13 @@ const findHomeByUser = async (req, res, next) => {
 const updateUsersForHome = async (req, res, next) => {
   const transaction = await sequelize.transaction();
   try {
-    const { removedUsers, homeAddress } = req.body;
+    const { removedUsers, home_id } = req.body;
 
-    await homeService.updateUsersForHome(removedUsers, homeAddress);
+    await homeService.updateUsersForHome(removedUsers, home_id);
 
     req.statusCode = 200;
     req.data = {
-      address: homeAddress,
+      home_id,
     };
 
     await transaction.commit();
