@@ -21,7 +21,7 @@ app.use("/health", (req, res) => {
 });
 
 // REST API entry point
-app.use("/v1", routes);
+app.use("", routes);
 
 // 404 Error Handling
 app.use((req, res) => {
