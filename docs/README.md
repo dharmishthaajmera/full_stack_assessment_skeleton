@@ -129,7 +129,14 @@ docker-compose -f docker-compose.initial.yml up --build -d
 
 ### solution
 
-> explain briefly your solution for this problem here
+<img width="604" alt="image" src="https://github.com/user-attachments/assets/96ac8396-717b-46e9-83c3-74788d60cc6b"/>
+
+<br/>
+<br/>
+
+  - Created "user" and "home" tables to store unique user and home data, respectively.
+  - Established a "user_home_relation" table to manage the many-to-many relationships between users and homes.
+  - Migrated data from the existing "user_home" table into the newly defined tables.
 
 ## 2. React SPA
 
@@ -281,8 +288,15 @@ docker-compose -f docker-compose.initial.yml up --build -d
 
 ### solution
 
-> explain briefly your solution for this problem here
-
+- Developed an API server using Express and Sequelize ORM.
+- Implemented the specified APIs.
+- Added pagination to the /home/find-by-user endpoint.
+- Enabled gzip compression on the server.
+  
+- Server start Instructions:
+  - Navigate to the backend directory: cd backend
+  - Install dependencies and start the server: npm install && npm start
+  
 ## Submission Guidelines
 
 - once you're done with [DB](#1-database), [frontend](#2-react-spa), [backend](#3-backend-api-development-on-node) it's time to submit your solution :smiley:
