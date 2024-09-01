@@ -15,12 +15,12 @@ const updateUsersForHomeValidation = async (req, res, next) => {
   const schema = yup.object({
     body: yup.object({
       home_id: yup.number().label("home id"),
-      removedUsers: yup
+      updateUsers: yup
         .array()
         .of(yup.number().label("user_id"))
         .min(1)
         .required()
-        .label("removed users"),
+        .label("update users"),
     }),
   });
   validator(req, res, schema, next);

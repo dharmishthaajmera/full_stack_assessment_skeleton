@@ -1,12 +1,12 @@
 -- Create the `user` table to store user information
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `user_id` INT AUTO_INCREMENT PRIMARY KEY,
   `username` VARCHAR(100) UNIQUE NOT NULL,
   `email` VARCHAR(100) UNIQUE DEFAULT NULL
 );
 
 -- Create the `home` table to store home details
-CREATE TABLE `home` (
+CREATE TABLE IF NOT EXISTS `home` (
   `home_id` INT AUTO_INCREMENT PRIMARY KEY,
   `street_address` VARCHAR(255) UNIQUE NOT NULL,
   `state` VARCHAR(50) DEFAULT NULL,
@@ -18,12 +18,12 @@ CREATE TABLE `home` (
 );
 
 -- Create the `user_home_relation` table to link users and homes
-CREATE TABLE `user_home_relation` (
+CREATE TABLE IF NOT EXISTS `user_home_relation` (
   `user_id` INT NOT NULL,
   `home_id` INT NOT NULL,
+  PRIMARY KEY (`user_id`, `home_id`),
   FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`) ON DELETE CASCADE,
-  FOREIGN KEY (`home_id`) REFERENCES `home`(`home_id`) ON DELETE CASCADE,
-  UNIQUE(`user_id`, `home_id`)
+  FOREIGN KEY (`home_id`) REFERENCES `home`(`home_id`) ON DELETE CASCADE
 );
 
 -- Insert distinct users from `user_home` into the `user` table

@@ -28,22 +28,44 @@ const getHomeByUser = async (user_id, page, limit) => {
     return allHomes;
   } catch (error) {
     console.log(error);
-    throw customException("Error getting all users for home");
+    throw customException("Error getting all homes for user");
   }
 };
 
-const updateUsersForHome = async (removedUsers, home_id) => {
+const removeUsersForHome = async (
+  removedUsers,
+  home_id,
+  transaction = null
+) => {
   try {
-    await model.user_home_relation.destroy({
-      where: {
-        user_id: removedUsers,
-        home_id,
+    await model.user_home_relation.destroy(
+      {
+        where: {
+          user_id: removedUsers,
+          home_id,
+        },
       },
-    });
+      { transaction }
+    );
   } catch (error) {
     console.log(error);
-    throw customException("Error getting all users for home");
+    throw customException("Error removing users for home");
   }
 };
 
-module.exports = { getHomeByUser, updateUsersForHome };
+const addUsersForHome = async (addUsers, home_id, transaction = null) => {
+  try {
+    await model.user_home_relation.bulkCreate(
+      addUsers.map((user_id) => ({
+        home_id,
+        user_id,
+      })),
+      { transaction }
+    );
+  } catch (error) {
+    console.log(error);
+    throw customException("Error adding users for home");
+  }
+};
+
+module.exports = { getHomeByUser, removeUsersForHome, addUsersForHome };

@@ -13,19 +13,22 @@ const getAllUsers = async () => {
   }
 };
 
-const getUsersByHome = async (home_id) => {
+const getUsersByHome = async (home_id, transaction = null) => {
   try {
-    const allUsers = await model.user.findAll({
-      attributes: ["username", "user_id"],
-      include: {
-        model: model.user_home_relation,
-        as: "user_home_relation",
-        where: {
-          home_id,
+    const allUsers = await model.user.findAll(
+      {
+        attributes: ["username", "user_id"],
+        include: {
+          model: model.user_home_relation,
+          as: "user_home_relation",
+          where: {
+            home_id,
+          },
+          attributes: [],
         },
-        attributes: [],
       },
-    });
+      { transaction }
+    );
 
     return allUsers;
   } catch (error) {
@@ -33,4 +36,5 @@ const getUsersByHome = async (home_id) => {
     throw customException("Error getting all users for home");
   }
 };
+
 module.exports = { getAllUsers, getUsersByHome };

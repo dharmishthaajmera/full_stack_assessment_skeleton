@@ -1,5 +1,5 @@
 const { sequelize } = require("../models");
-const { homeService } = require("../services");
+const { homeService, userService } = require("../services");
 const { commonErrorHandler } = require("../helper/error-handler");
 
 const findHomeByUser = async (req, res, next) => {
@@ -22,9 +22,23 @@ const findHomeByUser = async (req, res, next) => {
 const updateUsersForHome = async (req, res, next) => {
   const transaction = await sequelize.transaction();
   try {
-    const { removedUsers, home_id } = req.body;
+    const { updateUsers, home_id } = req.body;
 
-    await homeService.updateUsersForHome(removedUsers, home_id);
+    const existingUsersForHome = (
+      await userService.getUsersByHome(home_id, transaction)
+    ).map((users) => users.dataValues.user_id);
+
+    const removeUsers = updateUsers.filter((user) =>
+      existingUsersForHome.includes(user)
+    );
+
+    const addUsers = updateUsers.filter(
+      (user) => !existingUsersForHome.includes(user)
+    );
+
+    await homeService.removeUsersForHome(removeUsers, home_id, transaction);
+
+    await homeService.addUsersForHome(addUsers, home_id, transaction);
 
     req.statusCode = 200;
     req.data = {
